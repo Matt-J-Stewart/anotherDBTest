@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MattDB</title>
+</head>
+<body>
+    <h1>Here we will learn about node and databases</h1>
+
+    
+    <button type="button" onclick="fetchHistory()">History</button>
+    <button type="button" onclick="fetchCompSci()">Computer-Science</button>
+
+    <div id="fetchName"></div>
+    <br><br>
+    <div id="questions"></div>
+
+
+<script>
+
+    function displayContent(qObject) {
+        document.getElementById("fetchName").innerHTML = qObject.quizName;
+        document.getElementById("questions").innerHTML = "";
+        var qList = document.createElement("ol");
+        for(let i = 0; i < qObject.quizQuestions.length; i++) {
+            var question = qObject.quizQuestions[i].question;
+            question = question + "--" + qObject.quizQuestions[i].answer;
+            var item = document.createElement("li");
+            item.innerHTML = question;
+            qList.appendChild(item);
+        }
+        document.getElementById("questions").appendChild(qList);
+        //document.getElementById("fetchName").innerHTML = qObject;
+    }
+
+    async function fetchHistory() {
+        const response = await fetch("/history").then(response => response.json())
+        .then(data => {
+            displayContent(data);
+        })
+        
+    }
+
+    async function fetchCompSci() {
+        const response = await fetch("/CompSci").then(response => response.json())
+        .then(data => {
+            displayContent(data);
+        })
+        
+    }
+</script>
+
+</body>
+</html>
